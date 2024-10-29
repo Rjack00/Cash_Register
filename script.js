@@ -11,6 +11,8 @@ const status = {
 
 let cash = cashInput.value;
 let price = totalDue.value;
+let changeDue = [];
+
 const messages = {
   insufficientMessage: "Customer does not have enough money to purchase the item",
   exactCash: "No change due - customer paid with exact cash"
@@ -29,6 +31,14 @@ let cid = [
 ];
 
 
+console.log(cidReversed[1][0]);
+
 const register = (cashAmnt) => {
+  if(!cashAmnt) {
+    return;
+  }
+  let cidReversed = [...cid].reverse();
   
+  
+
 }
