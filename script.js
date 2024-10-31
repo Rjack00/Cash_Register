@@ -1,7 +1,9 @@
-const cashInput = document.getElementById('cash');
-const changeDueElement = document.getElementById('change-due');
-const purchaseBtn = document.getElementById('purchase-btn');
 const totalDue = document.getElementById("cost-amount");
+const cashInput = document.getElementById('cash');
+const changeTotalElement = document.getElementById("change-total");
+const purchaseBtn = document.getElementById('purchase-btn');
+const changeDueElement = document.getElementById('change-due');
+
 
 const status = {
   open: "OPEN",
@@ -16,7 +18,7 @@ let changeDue = [];
 const messages = {
   insufficientMessage: "Customer does not have enough money to purchase the item",
   exactCash: "No change due - customer paid with exact cash"
-}
+};
 
 let cid = [
   ['PENNY', 1.01],
@@ -30,15 +32,33 @@ let cid = [
   ['ONE HUNDRED', 100]
 ];
 
+let cidReversed = [...cid].reverse();
 
-console.log(cidReversed[1][0]);
+const register = (cashAmount) => {
 
-const register = (cashAmnt) => {
   if(!cashAmnt) {
     return;
   }
-  let cidReversed = [...cid].reverse();
+
+  let change = cashAmount - price;
+
+  if (cashAmount < price) {
+    alert(messages.insufficientMessage);
+  };
   
+  if (change === 0) {
+    changeDueElement.textContent = messages.exactCash;
+  }
+
+// making change
+  while(change > 0) {
+    for(const denomination of cidReversed) {
+      if(change < ) {
+
+      }
+    }
+  }
   
 
-}
+
+};
