@@ -32,7 +32,32 @@ let cid = [
   ['ONE HUNDRED', 100]
 ];
 
-let cidReversed = [...cid].reverse();
+// const denominationNames = {
+//   "ONE HUNDRED": "ONE HUNDRED",
+//   TWENTY: "TWENTY",
+//   TEN: "TEN",
+//   FIVE: "FIVE",
+//   ONE: "ONE",
+//   QUARTER: "QUARTER",
+//   DIME: "DIME",
+//   NICKLE: "NICKLE",
+//   PENNY: "PENNY"
+// };
+
+const denominationNames = [
+  "ONE HUNDRED",
+  "TWENTY",
+  "TEN",
+  "FIVE",
+  "ONE",
+  "QUARTER",
+  "DIME",
+  "NICKLE",
+  "PENNY"
+];
+
+const denominations = [10000, 2000, 1000, 500, 100, 25, 10, 5, 1];
+
 
 const register = (cashAmount) => {
 
@@ -40,7 +65,7 @@ const register = (cashAmount) => {
     return;
   }
 
-  let change = cashAmount - price;
+  let change = (cashAmount * 100) - (price * 100);
 
   if (cashAmount < price) {
     alert(messages.insufficientMessage);
@@ -51,14 +76,17 @@ const register = (cashAmount) => {
   }
 
 // making change
-  while(change > 0) {
-    for(const denomination of cidReversed) {
-      if(change < ) {
-
+  for (let i = 0; i > denominations.length -1; i++) {
+    for(const denomination of denominations) {
+      if(denominations < change) {
+        change -= denomination;
+        changeDue.push([denominationNames[i], denomination]);
+        break;
       }
     }
   }
-  
+  console.log(changeDue);
+  return;
 
 
 };
