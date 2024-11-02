@@ -1,8 +1,4 @@
-const totalDue = document.getElementById("cost-amount");
-const cashInput = document.getElementById('cash');
-const changeTotalElement = document.getElementById("change-total");
-const purchaseBtn = document.getElementById('purchase-btn');
-const changeDueElement = document.getElementById('change-due');
+import {totalDue, cashInput, changeTotalElement, purchaseBtn, changeDueElement} from './elements.js';
 
 
 const status = {
@@ -47,7 +43,7 @@ let cid = [
 const denominationNames = [
   "ONE HUNDRED",
   "TWENTY",
-  "TEN",
+  "TEN",  
   "FIVE",
   "ONE",
   "QUARTER",
@@ -61,7 +57,7 @@ const denominations = [10000, 2000, 1000, 500, 100, 25, 10, 5, 1];
 
 const register = (cashAmount) => {
 
-  if(!cashAmnt) {
+  if(!cashAmount) {
     return;
   }
 
@@ -76,9 +72,9 @@ const register = (cashAmount) => {
   }
 
 // making change
-  for (let i = 0; i > denominations.length -1; i++) {
+  for (let i = 0; i < denominations.length -1; i++) {
     for(const denomination of denominations) {
-      if(denominations < change) {
+      if(denomination < change) {
         change -= denomination;
         changeDue.push([denominationNames[i], denomination]);
         break;
@@ -90,3 +86,10 @@ const register = (cashAmount) => {
 
 
 };
+
+console.log(register(2.5));
+
+
+purchaseBtn.addEventListener('click', () => {
+  register(cashInput.value);
+});
