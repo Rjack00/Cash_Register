@@ -1,0 +1,20 @@
+{
+  "name": "cash_register",
+  "version": "1.0.0",
+  "description": "\"Cash Register App\"",
+  "main": "script.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Rjack00/Cash_Register.git"
+  },
+  "author": "Rjack",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rjack00/Cash_Register/issues"
+  },
+  "homepage": "https://github.com/Rjack00/Cash_Register#readme"
+}
