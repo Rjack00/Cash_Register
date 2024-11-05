@@ -1,5 +1,11 @@
-import {totalDue, cashInput, changeTotalElement, purchaseBtn, changeDueElement} from './elements.js';
+import { getDomElements } from './elements.js';
 
+const { totalDue, cashInput, changeTotalElement, purchaseBtn, changeDueElement } = getDomElements();
+
+console.log("test1");
+
+
+console.log("test2");
 
 const status = {
   open: "OPEN",
@@ -87,7 +93,7 @@ const register = (cashAmount) => {
 
 };
 
-console.log(register(2.5));
+console.log("testing ", register(2.5));
 
 
 purchaseBtn.addEventListener('click', () => {
