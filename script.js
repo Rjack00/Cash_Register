@@ -61,41 +61,48 @@ const denominationNames = [
 const denominations = [10000, 2000, 1000, 500, 100, 25, 10, 5, 1];
 
 
-const register = (cashAmount) => {
+const register = (cashAmount, price) => {
 
-  if(!cashAmount) {
+  if(cashAmount === "") {
+    console.log('if(cashAmount === "") triggered');
     return;
   }
 
   let change = (cashAmount * 100) - (price * 100);
 
   if (cashAmount < price) {
+    console.log("if(cashAmount < price) triggered");
     alert(messages.insufficientMessage);
+    return;
   };
   
   if (change === 0) {
+    console.log("if(change === 0) triggered");
     changeDueElement.textContent = messages.exactCash;
+    return;
   }
 
 // making change
-  for (let i = 0; i < denominations.length -1; i++) {
-    for(const denomination of denominations) {
-      if(denomination < change) {
-        change -= denomination;
-        changeDue.push([denominationNames[i], denomination]);
-        break;
-      }
+  let count = 0;
+  while(change > 0) {
+    for (let i = 0; i < denominations.length; i++) {
+        if(denominations[i] <= change) {
+          console.log("denominations[i]: ", denominations[i]);
+          console.log("change: ", change);
+          change -= denominations[i];
+          changeDue.push(["test ", denominationNames[i], denominations[i] / 100]);
+          console.log("count: ", count += 1);
+          break;
+        }
     }
   }
   console.log(changeDue);
   return;
-
-
 };
 
-console.log("testing ", register(2.5));
+
 
 
 purchaseBtn.addEventListener('click', () => {
-  register(cashInput.value);
+  register(cashInput.value, totalDue.value);
 });
