@@ -83,15 +83,20 @@ const register = (cashAmount, price) => {
   }
 
 // making change
-  let count = 0;
   while(change > 0) {
     for (let i = 0; i < denominations.length; i++) {
         if(denominations[i] <= change) {
-          console.log("denominations[i]: ", denominations[i]);
-          console.log("change: ", change);
           change -= denominations[i];
-          changeDue.push(["test ", denominationNames[i], denominations[i] / 100]);
-          console.log("count: ", count += 1);
+          
+          if (changeDue.some(subArray => subArray.includes(denominationNames[i]))) {
+            for(const denomination of changeDue) {
+                if(denomination[0] === denominationNames[i]) {
+                  denomination[1] += denominations[i] / 100;
+                }
+            }
+          } else {
+          changeDue.push([denominationNames[i], denominations[i] / 100]);
+          }
           break;
         }
     }
@@ -104,5 +109,5 @@ const register = (cashAmount, price) => {
 
 
 purchaseBtn.addEventListener('click', () => {
-  register(cashInput.value, totalDue.value);
+  register(Number(cashInput.value), Number(totalDue.value));
 });
