@@ -1,4 +1,3 @@
-console.log("Test Elements______");
 const getDomElements = () => {
     return {
         totalDue: document.getElementById("cost-amount"),
