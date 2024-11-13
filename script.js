@@ -56,9 +56,9 @@ const denominations = [
 ];
 
 
-let cidReduced = () => {
-  cidReversed.forEach(item => item[1] = Math.round(item[1] * 100));
-  return cidReversed.reduce((a, b) => a + Number(b[1]), 0) / 100;
+let cidTotal = () => {
+  const cidCopyM100 = [...cidReversed].forEach(item => item[1] = Math.round(item[1] * 100));
+  return cidCopyM100.reduce((a, b) => a + Number(b[1]), 0) / 100;
 }
 
 // TODO register():
@@ -92,15 +92,18 @@ const register = (cashAmount, price) => {
     changeDueElement.textContent = messages.exactCash;
     return;
   }
-  const cidTotal = cidReduced(); // this is changing cid each time called in if() below.
-// making change
+  
+ // making change
   while(change > 0) {
     for (let i = 0; i < denominations.length; i++) {
+      console.log(`change: ${change}`);
       if (cidTotal < change) {
-        console.log("cid is insufficient");
+        console.log("cid is insufficient: ", cidTotal);
+        console.log("change: ", change);
         return;
       }
       if(cidReversed[i][1] === 0) {
+        console.log(`cidReversed[i][1] === 0 ? cidReversed[i][1]: ${cidReversed[i][1]}, i: ${i}`);
         i++;
       }
       if(denominations[i] <= change) {
