@@ -61,11 +61,21 @@ let cidReduced = () => {
   return cidReversed.reduce((a, b) => a + Number(b[1]), 0) / 100;
 }
 
-
+// TODO register():
+// - add STATUS: to messages
+// - innerHTML for changeDueElement
+// - innerHTML for changeTotalElement
+// - innerHTML for changeInDrawer
 const register = (cashAmount, price) => {
 
-  if(cashAmount === "") {
+  if(!price) {
+    alert("Enter amount due");
+    return;
+  }
+
+  if(!cashAmount) {
     console.log('if(cashAmount === "") triggered');
+    alert("Enter cash from customer");
     return;
   }
 
@@ -82,11 +92,11 @@ const register = (cashAmount, price) => {
     changeDueElement.textContent = messages.exactCash;
     return;
   }
-
+  const cidTotal = cidReduced(); // this is changing cid each time called in if() below.
 // making change
   while(change > 0) {
     for (let i = 0; i < denominations.length; i++) {
-      if (cidReduced < change) {
+      if (cidTotal < change) {
         console.log("cid is insufficient");
         return;
       }
