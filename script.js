@@ -2,19 +2,12 @@ import { getDomElements } from './elements.js';
 
 const { totalDue, cashInput, changeTotalElement, purchaseBtn, changeDueElement } = getDomElements();
 
-console.log("test1");
-
-
-console.log("test2");
-
 const status = {
   open: "OPEN",
   closed: "CLOSED",
   insuff: "INSUFFICIENT_fUNDS"
 };
 
-let cash = cashInput.value;
-let price = totalDue.value;
 let changeDue = [];
 
 const messages = {
@@ -34,17 +27,9 @@ let cid = [
   ['ONE HUNDRED', 100]
 ];
 
-// const denominationNames = {
-//   "ONE HUNDRED": "ONE HUNDRED",
-//   TWENTY: "TWENTY",
-//   TEN: "TEN",
-//   FIVE: "FIVE",
-//   ONE: "ONE",
-//   QUARTER: "QUARTER",
-//   DIME: "DIME",
-//   NICKLE: "NICKLE",
-//   PENNY: "PENNY"
-// };
+let cidReversed = cid.reverse();
+
+console.log("cidReversed: ", cidReversed);
 
 const denominationNames = [
   "ONE HUNDRED",
@@ -58,7 +43,23 @@ const denominationNames = [
   "PENNY"
 ];
 
-const denominations = [10000, 2000, 1000, 500, 100, 25, 10, 5, 1];
+const denominations = [
+  10000, 
+  2000, 
+  1000, 
+  500, 
+  100, 
+  25, 
+  10, 
+  5, 
+  1
+];
+
+
+let cidReduced = () => {
+  cidReversed.forEach(item => item[1] = Math.round(item[1] * 100));
+  return cidReversed.reduce((a, b) => a + Number(b[1]), 0) / 100;
+}
 
 
 const register = (cashAmount, price) => {
@@ -85,24 +86,33 @@ const register = (cashAmount, price) => {
 // making change
   while(change > 0) {
     for (let i = 0; i < denominations.length; i++) {
-        if(denominations[i] <= change) {
-          change -= denominations[i];
-          
-          if (changeDue.some(subArray => subArray.includes(denominationNames[i]))) {
-            for(const denomination of changeDue) {
-                if(denomination[0] === denominationNames[i]) {
-                  denomination[1] += denominations[i] / 100;
-                }
-            }
-          } else {
-          changeDue.push([denominationNames[i], denominations[i] / 100]);
+      if (cidReduced < change) {
+        console.log("cid is insufficient");
+        return;
+      }
+      if(cidReversed[i][1] === 0) {
+        i++;
+      }
+      if(denominations[i] <= change) {
+        change -= denominations[i];
+        cidReversed[i][1] -= denominations[i] / 100;
+        
+        if (changeDue.some(subArray => subArray.includes(denominationNames[i]))) {
+          for(const denomination of changeDue) {
+              if(denomination[0] === denominationNames[i]) {
+                denomination[1] += denominations[i] / 100;
+              }
           }
-          break;
+        } else {
+        changeDue.push([denominationNames[i], denominations[i] / 100]);
         }
+        break;
+      }
     }
   }
-  console.log(changeDue);
-  return;
+  console.log("changeDue: ", changeDue);
+  console.log("cidReversed: ", cidReversed);
+  return ;
 };
 
 
