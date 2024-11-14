@@ -29,8 +29,6 @@ let cid = [
 
 let cidReversed = cid.reverse();
 
-console.log("cidReversed: ", cidReversed);
-
 const denominationNames = [
   "ONE HUNDRED",
   "TWENTY",
@@ -57,8 +55,19 @@ const denominations = [
 
 
 let cidTotal = () => {
-  const cidCopyM100 = [...cidReversed].forEach(item => item[1] = Math.round(item[1] * 100));
+  const cidCopyM100 = [...cidReversed];
+  cidCopyM100.forEach(item => item[1] = Math.round(item[1] * 100));
   return cidCopyM100.reduce((a, b) => a + Number(b[1]), 0) / 100;
+}
+
+const updateStatus = (registerStatus) => {
+  if (registerStatus === "insufficient") {
+    return status.insuff;
+  } else if (registerStatus === "closed") {
+    return status.closed;
+  } else {
+    return status.open;
+  }
 }
 
 // TODO register():
@@ -74,7 +83,6 @@ const register = (cashAmount, price) => {
   }
 
   if(!cashAmount) {
-    console.log('if(cashAmount === "") triggered');
     alert("Enter cash from customer");
     return;
   }
@@ -82,13 +90,11 @@ const register = (cashAmount, price) => {
   let change = (cashAmount * 100) - (price * 100);
 
   if (cashAmount < price) {
-    console.log("if(cashAmount < price) triggered");
     alert(messages.insufficientMessage);
     return;
   };
   
   if (change === 0) {
-    console.log("if(change === 0) triggered");
     changeDueElement.textContent = messages.exactCash;
     return;
   }
@@ -96,15 +102,13 @@ const register = (cashAmount, price) => {
  // making change
   while(change > 0) {
     for (let i = 0; i < denominations.length; i++) {
-      console.log(`change: ${change}`);
       if (cidTotal < change) {
-        console.log("cid is insufficient: ", cidTotal);
-        console.log("change: ", change);
+        console.log("cidTotal<Change");  // when this if() nothing happens/ infinite loop??
+        // updateStatus("insufficient");
         return;
       }
-      if(cidReversed[i][1] === 0) {
-        console.log(`cidReversed[i][1] === 0 ? cidReversed[i][1]: ${cidReversed[i][1]}, i: ${i}`);
-        i++;
+      if(cidReversed[i][1] <= 0) {
+        continue;
       }
       if(denominations[i] <= change) {
         change -= denominations[i];
@@ -128,9 +132,20 @@ const register = (cashAmount, price) => {
   return ;
 };
 
+const updateUI = () => {
+  changeDueElement.innerHTML = `<p>STATUS: ${updateStatus()}</p>`
+  for(const subArr of changeDue) {
+    changeDueElement.innerHTML += `
+    <p>${subArr[0]}: $${subArr[1]}</p>`;
+  }
+}
+
 
 
 
 purchaseBtn.addEventListener('click', () => {
+  console.time('RegisterRunTime');
   register(Number(cashInput.value), Number(totalDue.value));
+  console.timeEnd('RegisterRunTime');
+  updateUI();
 });
