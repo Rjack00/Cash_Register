@@ -5,8 +5,10 @@ const { totalDue, cashInput, changeTotalElement, purchaseBtn, changeDueElement }
 const status = {
   open: "OPEN",
   closed: "CLOSED",
-  insuff: "INSUFFICIENT_fUNDS"
+  insuff: "INSUFFICIENT_FUNDS"
 };
+
+let registerStatus = ``;
 
 let changeDue = [];
 
@@ -14,6 +16,8 @@ const messages = {
   insufficientMessage: "Customer does not have enough money to purchase the item",
   exactCash: "No change due - customer paid with exact cash"
 };
+
+let registerMessage = ``;
 
 let cid = [
   ['PENNY', 1.01],
@@ -29,30 +33,9 @@ let cid = [
 
 let cidReversed = cid.reverse();
 
-const denominationNames = [
-  "ONE HUNDRED",
-  "TWENTY",
-  "TEN",  
-  "FIVE",
-  "ONE",
-  "QUARTER",
-  "DIME",
-  "NICKLE",
-  "PENNY"
-];
+const denominationNames = ["ONE HUNDRED","TWENTY","TEN","FIVE","ONE","QUARTER","DIME","NICKLE","PENNY"];
 
-const denominations = [
-  10000, 
-  2000, 
-  1000, 
-  500, 
-  100, 
-  25, 
-  10, 
-  5, 
-  1
-];
-
+const denominations = [10000, 2000, 1000, 500, 100, 25, 10, 5, 1];
 
 let cidTotal = () => {
   const cidCopyM100 = [...cidReversed];
@@ -67,6 +50,16 @@ const updateStatus = (registerStatus) => {
     return status.closed;
   } else {
     return status.open;
+  }
+}
+
+const updateUI = () => {
+  changeDueElement.innerHTML = `
+    <p>STATUS: ${updateStatus(registerStatus)}</p>
+    <p>${registerMessage}</p>
+    `;
+  for(const subArr of changeDue) {
+    changeDueElement.innerHTML += `<p>${subArr[0]}: $${subArr[1]}</p>`;
   }
 }
 
@@ -95,16 +88,16 @@ const register = (cashAmount, price) => {
   };
   
   if (change === 0) {
-    changeDueElement.textContent = messages.exactCash;
+    console.log('exactCash');
+    registerMessage = messages.exactCash;
     return;
   }
   
  // making change
   while(change > 0) {
     for (let i = 0; i < denominations.length; i++) {
-      if (cidTotal < change) {
-        console.log("cidTotal<Change");  // when this if() nothing happens/ infinite loop??
-        // updateStatus("insufficient");
+      if (cidTotal() < change) {
+        registerStatus = `insufficient`;
         return;
       }
       if(cidReversed[i][1] <= 0) {
@@ -131,16 +124,6 @@ const register = (cashAmount, price) => {
   console.log("cidReversed: ", cidReversed);
   return ;
 };
-
-const updateUI = () => {
-  changeDueElement.innerHTML = `<p>STATUS: ${updateStatus()}</p>`
-  for(const subArr of changeDue) {
-    changeDueElement.innerHTML += `
-    <p>${subArr[0]}: $${subArr[1]}</p>`;
-  }
-}
-
-
 
 
 purchaseBtn.addEventListener('click', () => {
