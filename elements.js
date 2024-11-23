@@ -4,8 +4,9 @@ const getDomElements = () => {
         cashInput: document.getElementById("cash"),
         changeTotalElement: document.getElementById("change-total"),
         purchaseBtn: document.getElementById('purchase-btn'),
+        clearBtn: document.getElementById('clear'),
         changeDueElement: document.getElementById('change-due'),
-        changeInDrawer: document.getElementById('change-in-drawer')
+        cashInDrawer: document.getElementById('cash-in-drawer')
     };
 }
 
