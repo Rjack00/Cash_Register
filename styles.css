@@ -3,9 +3,29 @@
 *::after {
     box-sizing: border-box;
     margin: 0;
+    color: white;
+}
+
+html {
+    background-color: black;
+    height: 100%;
 }
 
 body {
     background-color: black;
-    color: lightgray;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
+.main-container {
+    background-color: darkgray;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: 30px;
+    text-align: center;
+}
+
+.cash-transaction {
+    flex-direction: column;
 }
