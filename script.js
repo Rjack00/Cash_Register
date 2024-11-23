@@ -1,23 +1,8 @@
 import { getDomElements } from './elements.js';
 
-const { totalDue, cashInput, changeTotalElement, purchaseBtn, changeDueElement } = getDomElements();
-
-const status = {
-  open: "OPEN",
-  closed: "CLOSED",
-  insuff: "INSUFFICIENT_FUNDS"
-};
-
-let registerStatus = ``;
+const { totalDue, cashInput, changeTotalElement, purchaseBtn, clearBtn, changeDueElement } = getDomElements();
 
 let changeDue = [];
-
-const messages = {
-  insufficientMessage: "Customer does not have enough money to purchase the item",
-  exactCash: "No change due - customer paid with exact cash"
-};
-
-let registerMessage = ``;
 
 let cid = [
   ['PENNY', 1.01],
@@ -31,82 +16,99 @@ let cid = [
   ['ONE HUNDRED', 100]
 ];
 
-// reversing cid to place larger values first
-let cidReversed = cid.reverse();
-// changed dollars to cents to avoid floating-point precision issues
-for(const element of cidReversed) {
-  element[1] = Math.round(element[1] * 100);
-}
+const statUs = {
+  open: "OPEN",
+  closed: "CLOSED",
+  insuff: "INSUFFICIENT_FUNDS"
+};
 
-const denominationNames = ["ONE HUNDRED","TWENTY","TEN","FIVE","ONE","QUARTER","DIME","NICKLE","PENNY"];
+const messages = {
+  insufficientMessage: "Customer does not have enough money to purchase the item",
+  exactCash: "No change due - customer paid with exact cash"
+};
 
-const denominations = [10000, 2000, 1000, 500, 100, 25, 10, 5, 1];
+let registerMessage = ``;
 
-let cidTotal = () => {
-  return cidReversed.reduce((a, b) => a + Number(b[1]), 0);
-}
-
+// updating register status
 const updateStatus = (registerStatus) => {
-  if (registerStatus === "insufficient") {
-    return status.insuff;
+  if (registerStatus === "insuff") {
+    return statUs.insuff;
   } else if (registerStatus === "closed") {
-    return status.closed;
+    return statUs.closed;
   } else {
-    return status.open;
+    return statUs.open;
   }
 }
 
-const updateUI = () => {
-  changeDueElement.innerHTML = `
-    <p>STATUS: ${updateStatus(registerStatus)}</p>
-    <p>${registerMessage}</p>
-    `;
-  for(const subArr of changeDue) {
-    changeDueElement.innerHTML += `<p>${subArr[0]}: $${subArr[1]}</p>`;
+// using registerStatus() to update UI after button clicked/transaction complete
+const updateUI = (registerStatus) => {
+  if(registerStatus) {
+    changeDueElement.textContent = `Status: ${updateStatus(registerStatus)}`;
+    if(!exactChangeNotAvailable) {
+      changeDue.map(([denominationName, amount]) => {
+      changeDueElement.textContent += ` ${denominationName}: $${amount}`;
+      });
+    }
+  } else {
+    changeDueElement.textContent = `${registerMessage}`;
   }
 }
-console.log('cid1',cidReversed);
-// TODO register():
-// - add STATUS: to messages
-// - innerHTML for changeDueElement
-// - innerHTML for changeTotalElement
-// - innerHTML for changeInDrawer
-const register = (cashAmount, price) => {
+
+let registerStatus = '';
+let exactChangeNotAvailable = false;
+
+// REGISTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+const register = (totalDue, cashInput, cid) => {
   
-  if(!price) {
+  exactChangeNotAvailable = false;
+  registerStatus = '';
+  //Denomination names to simplify calling/assignment
+  const denominationNames = ["ONE HUNDRED","TWENTY","TEN","FIVE","ONE","QUARTER","DIME","NICKLE","PENNY"];
+
+  //Denominations to cents to avoid floating-point precision issues
+  const denominations = [10000, 2000, 1000, 500, 100, 25, 10, 5, 1];
+
+  // reversing cid to place larger values first
+  let cidReversed = cid.reverse();
+
+  // changed dollars to cents to avoid floating-point precision issues
+  for(const element of cidReversed) {
+    element[1] = Math.round(element[1] *100);
+  }
+
+  if(!totalDue) {
     alert("Enter amount due");
     return;
   }
 
-  if(!cashAmount) {
+  if(!cashInput) {
     alert("Enter cash from customer");
     return;
   }
 
-  let change = (cashAmount * 100) - (price * 100);
-
-  if (cashAmount < price) {
-    alert(messages.insufficientMessage);
-    return;
-  };
+  let change = Math.round((cashInput * 100) - (totalDue * 100));
   
-  if (change === 0) {
-    console.log('exactCash');
+  if (totalDue === cashInput) {
     registerMessage = messages.exactCash;
     return;
   }
-  // need to get exact change; currently can't get all 0's when 1 - 334.41
- // making change
-  while(change > 0) {
+
+  const cidTotal = () => {
+    return cidReversed.reduce((a, b) => a + Number(b[1]), 0);
+  }
+
+  if (cidTotal() < change) {
+    registerStatus = 'insuff';
+    return;
+  }
+
+  // making change
+  while(change > 0 && !exactChangeNotAvailable) {
+    let denominationUsed = false;
     for (let i = 0; i < denominations.length; i++) {
-      console.log(`cidTotal(): ${cidTotal()}, change ${change}`);
-      if (cidTotal() < change) {
-        registerStatus = `insufficient`;
-        return;
-      }
-      if(cidReversed[i][1] <= 0) {
-        continue;
-      }
+      
+      if(cidReversed[i][1] <= 0) continue;
+      
       if(denominations[i] <= change) {
         change -= denominations[i];
         cidReversed[i][1] -= denominations[i];
@@ -120,27 +122,35 @@ const register = (cashAmount, price) => {
         } else {
         changeDue.push([denominationNames[i], denominations[i]]);
         }
+        denominationUsed = true;
         break;
       }
     }
+    if(!denominationUsed) exactChangeNotAvailable = true;
+    registerStatus = 'open';
   }
+
+  if (cidReversed.reduce((a, b) => a + b[1], 0) === 0) registerStatus = 'closed';
+
+  if(exactChangeNotAvailable) registerStatus = 'insuff';
+  
   // changing denominations of changeDue to dollars
   for(const element of changeDue) {
-    element[1] = Math.round(element[1] / 100);
+    element[1] = element[1] / 100;
   }
   // changing denominations of cidReversed back to dollars
   for(const element of cidReversed) {
-    element[1] = Math.round(element[1] / 100);
+    element[1] = element[1] / 100;
   }
-  console.log("changeDue: ", changeDue);
-  console.log("cidReversed: ", cidReversed);
-  return ;
+
 };
 
 
 purchaseBtn.addEventListener('click', () => {
-  console.time('RegisterRunTime');
-  register(Number(cashInput.value), Number(totalDue.value));
-  console.timeEnd('RegisterRunTime');
-  updateUI();
-});
+  Number(totalDue.value) > Number(cashInput.value)
+    ? alert("Customer does not have enough money to purchase the item")
+    : register(Number(totalDue.value), Number(cashInput.value), cid);
+    updateUI(registerStatus);
+    changeDue = [];
+  }
+);
