@@ -7,19 +7,29 @@
     <title>Cash Register</title>
 </head>
 <body>
-    <h1>Cash Register</h1>
+    <div class="main-container">
+        <h1>Cash Register</h1>
+        
+        <div class="cash-transaction">
+            <div class="amount-due">
+                <label for="cost-amount">Amount Due:</label>
+                <input type="number" id="cost-amount">
+            </div>
+            <div class="cash">
+                <label for="cash">Enter cash from customer:</label>
+                <input type="number" id="cash">
+            </div>
+            <div id="change-total"></div>
+        </div>
 
-    <label for="cost-amount">Amount Due:</label>
-    <input type="number" id="cost-amount">
-    <label for="cash">Enter cash from customer:</label>
-    <input type="number" id="cash">
-    <div id="change-total"></div>
-
-    <div id="change-due"></div>
-    
-    <button id="purchase-btn">Purchase</button>
-
-    <div id="cash-in-drawer"></div>
+        <div class="cid-section">
+            <div id="change-due"></div>
+            
+            <button id="purchase-btn">Purchase</button>
+            <button id="clear">Clear</button>
+            <div id="cash-in-drawer"></div>
+        </div>
+    </div>  
 
 <script type="module" src="script.js"></script>
 </body>
