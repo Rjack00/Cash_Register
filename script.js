@@ -154,3 +154,10 @@ purchaseBtn.addEventListener('click', () => {
     changeDue = [];
   }
 );
+
+clearBtn.addEventListener('click', () => {
+  totalDue.value = '';
+  cashInput.value = '';
+  changeDue.textContent = '0';
+  changeDueElement.textContent = '';
+})
