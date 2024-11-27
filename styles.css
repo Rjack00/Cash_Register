@@ -3,7 +3,6 @@
 *::after {
     box-sizing: border-box;
     margin: 0;
-    color: white;
 }
 
 html {
@@ -13,19 +12,66 @@ html {
 
 body {
     background-color: black;
+    color: white;
     display: flex;
     justify-content: center;
     height: 100%;
 }
 
 .main-container {
-    background-color: darkgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(51, 51, 51);
     margin-top: 2%;
     margin-bottom: 2%;
     border-radius: 30px;
     text-align: center;
+    padding: 1% 2%;
+    gap: 20px 20px;
+}
+
+label {
+    display: block;
+}
+
+.elem-background {
+    background-color: black;
+    padding: 4% 3%;
+    width: 200px;
 }
 
 .cash-transaction {
+    display: flex;
     flex-direction: column;
+    row-gap: 10px;
+    width: 200px;
+}
+
+.cashier-elem-background{
+    width: 200px;
+}
+
+input {
+    background-color: black;
+    border: none;
+    text-align: center;
+    color: white;
+    margin-left: 11px;
+}
+
+input::placeholder {
+    color: white !important;
+}
+
+.cashier-section {
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+}
+
+.btn-section {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
 }
