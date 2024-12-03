@@ -1,6 +1,9 @@
 import { getDomElements } from './elements.js';
 
-const { totalDue, cashInput, changeTotalElement, purchaseBtn, clearBtn, changeDueElement } = getDomElements();
+const { totalDue, cashInput, changeTotalElement, purchaseBtn, clearBtn, changeDueElement, cashInDrawer } = getDomElements();
+
+const cashTransactionContainer = document.querySelector('.cash-transaction');
+const changeTotalDiv = document.getElementById('change-total-div');
 
 let changeDue = [];
 
@@ -43,10 +46,10 @@ const updateStatus = (registerStatus) => {
 // using registerStatus() to update UI after button clicked/transaction complete
 const updateUI = (registerStatus) => {
   if(registerStatus) {
-    changeDueElement.textContent = `Status: ${updateStatus(registerStatus)}`;
+    changeDueElement.innerHTML += `<p class='change-display denom status'>Status: ${updateStatus(registerStatus)}</p>`;
     if(!exactChangeNotAvailable) {
       changeDue.map(([denominationName, amount]) => {
-      changeDueElement.textContent += ` ${denominationName}: $${amount}`;
+      changeDueElement.innerHTML += `<p class='denom'>${denominationName}: $${amount}</p>`;
       });
     }
   } else {
@@ -87,6 +90,10 @@ const register = (totalDue, cashInput, cid) => {
   }
 
   let change = Math.round((cashInput * 100) - (totalDue * 100));
+
+  let totalChange = change / 100;
+  changeTotalElement.textContent = `$${totalChange}`;
+
   
   if (totalDue === cashInput) {
     registerMessage = messages.exactCash;
@@ -109,7 +116,7 @@ const register = (totalDue, cashInput, cid) => {
       
       if(cidReversed[i][1] <= 0) continue;
       
-      if(denominations[i] <= change) {
+      if(denominations[i] <= change && cidReversed[i][1] >= denominations[i]) {
         change -= denominations[i];
         cidReversed[i][1] -= denominations[i];
         
@@ -143,6 +150,10 @@ const register = (totalDue, cashInput, cid) => {
     element[1] = element[1] / 100;
   }
 
+  cidReversed.map(([denominationName, amount]) => {
+    cashInDrawer.innerHTML += `<p class='denom'>${denominationName}: $${amount}</p>`;
+  });
+
 };
 
 
@@ -152,6 +163,14 @@ purchaseBtn.addEventListener('click', () => {
     : register(Number(totalDue.value), Number(cashInput.value), cid);
     updateUI(registerStatus);
     changeDue = [];
+
+  cashTransactionContainer.prepend(changeTotalDiv);
+  changeTotalDiv.style.backgroundColor = 'white';
+  changeTotalDiv.style.color = 'green';
+  changeTotalDiv.style.fontSize = '1.2em';
+  changeTotalDiv.style.fontWeight = 'bold';
+  changeTotalDiv.style.borderRadius = '20px';
+  changeTotalDiv.style.border = '4px solid black';
   }
 );
 
@@ -159,5 +178,11 @@ clearBtn.addEventListener('click', () => {
   totalDue.value = '';
   cashInput.value = '';
   changeDue.textContent = '0';
-  changeDueElement.textContent = '';
+  changeTotalElement.textContent = '0';
+  document.querySelectorAll('.denom').forEach(item => {
+    item.textContent = '';
+  });
+  changeTotalDiv.removeAttribute('style');
+  cashTransactionContainer.appendChild(changeTotalDiv);
+
 })
