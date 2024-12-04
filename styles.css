@@ -74,12 +74,35 @@ input::placeholder {
     column-gap: 30px;
 }
 
+#cash-in-drawer, #change-due {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.cid-section {
+    display: flex;
+    justify-content: center;
+    padding: 13px 15px;
+}
+
 .cid-header{
     margin-bottom: 10px;
 }
 
-.denom {
+.denom-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.denom-name {
     text-align: left;
+}
+
+.denom-amount {
+    text-align: right;
 }
 
 .status {
