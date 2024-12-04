@@ -16,7 +16,7 @@ let cid = [
   ['FIVE', 55],
   ['TEN', 20],
   ['TWENTY', 60],
-  ['ONE HUNDRED', 100]
+  ['HUNDRED', 100]
 ];
 
 const statUs = {
@@ -46,10 +46,14 @@ const updateStatus = (registerStatus) => {
 // using registerStatus() to update UI after button clicked/transaction complete
 const updateUI = (registerStatus) => {
   if(registerStatus) {
-    changeDueElement.innerHTML += `<p class='change-display denom status'>Status: ${updateStatus(registerStatus)}</p>`;
+    changeDueElement.innerHTML += `<p class='change-display status'>Status: ${updateStatus(registerStatus)}</p>`;
     if(!exactChangeNotAvailable) {
       changeDue.map(([denominationName, amount]) => {
-      changeDueElement.innerHTML += `<p class='denom'>${denominationName}: $${amount}</p>`;
+      changeDueElement.innerHTML += `
+    <div class='denom-row'>
+    <span class='denom-name'>${denominationName}: </span>
+    <span class='denom-amount'>$${amount}</span>
+    </div>`;
       });
     }
   } else {
@@ -66,7 +70,7 @@ const register = (totalDue, cashInput, cid) => {
   exactChangeNotAvailable = false;
   registerStatus = '';
   //Denomination names to simplify calling/assignment
-  const denominationNames = ["ONE HUNDRED","TWENTY","TEN","FIVE","ONE","QUARTER","DIME","NICKLE","PENNY"];
+  const denominationNames = ["HUNDRED","TWENTY","TEN","FIVE","ONE","QUARTER","DIME","NICKLE","PENNY"];
 
   //Denominations to cents to avoid floating-point precision issues
   const denominations = [10000, 2000, 1000, 500, 100, 25, 10, 5, 1];
@@ -143,15 +147,19 @@ const register = (totalDue, cashInput, cid) => {
   
   // changing denominations of changeDue to dollars
   for(const element of changeDue) {
-    element[1] = element[1] / 100;
+    element[1] = (element[1] / 100).toFixed(2);
   }
   // changing denominations of cidReversed back to dollars
   for(const element of cidReversed) {
-    element[1] = element[1] / 100;
+    element[1] = (element[1] / 100).toFixed(2);
   }
 
   cidReversed.map(([denominationName, amount]) => {
-    cashInDrawer.innerHTML += `<p class='denom'>${denominationName}: $${amount}</p>`;
+    cashInDrawer.innerHTML += `
+    <div class='denom-row'>
+    <span class='denom-name'>${denominationName}: </span>
+    <span class='denom-amount'>$${amount}</span>
+    </div>`;
   });
 
 };
@@ -179,7 +187,7 @@ clearBtn.addEventListener('click', () => {
   cashInput.value = '';
   changeDue.textContent = '0';
   changeTotalElement.textContent = '0';
-  document.querySelectorAll('.denom').forEach(item => {
+  document.querySelectorAll('.denom-name, .denom-amount, .status').forEach(item => {
     item.textContent = '';
   });
   changeTotalDiv.removeAttribute('style');
