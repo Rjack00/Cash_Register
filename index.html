@@ -31,21 +31,23 @@
             </div>
             <div class="btn-section">
                 <div id="keypad" class="buttons">
-                    <button class="key" onclick="pressKey('1')"></button>
-                    <button class="key" onclick="pressKey('2')"></button>
-                    <button class="key" onclick="pressKey('3')"></button>
-                    <button class="key" onclick="pressKey('4')"></button>
-                    <button class="key" onclick="pressKey('5')"></button>
-                    <button class="key" onclick="pressKey('6')"></button>
-                    <button class="key" onclick="pressKey('7')"></button>
-                    <button class="key" onclick="pressKey('8')"></button>
-                    <button class="key" onclick="pressKey('9')"></button>
-                    <button class="key" onclick="pressKey('0')"></button>
+                    <button class="key" onclick="pressKey('1')">1</button>
+                    <button class="key" onclick="pressKey('2')">2</button>
+                    <button class="key" onclick="pressKey('3')">3</button>
+                    <button class="key" onclick="pressKey('4')">4</button>
+                    <button class="key" onclick="pressKey('5')">5</button>
+                    <button class="key" onclick="pressKey('6')">6</button>
+                    <button class="key" onclick="pressKey('7')">7</button>
+                    <button class="key" onclick="pressKey('8')">8</button>
+                    <button class="key" onclick="pressKey('9')">9</button>
                     <button class="key" onclick="clearDisplay()">C</button>
-                    <button class="key" onclick="backspace()"></button>
+                    <button class="key" onclick="pressKey('0')">0</button>
+                    <button class="key" onclick="backspace()">←</button>
                 </div>
-                <button id="purchase-btn">Purchase</button>
-                <button id="clear-btn">Clear</button>
+                <div class="purchase-clear-section">
+                    <button id="purchase-btn" class="purchase-clear-btn">Complete Transaction</button>
+                    <button id="clear-btn" class="purchase-clear-btn">Clear Transaction</button>
+                </div>
             </div>
             <div class="cid-section elem-background cashier-elem-background">
                 <div id="cash-in-drawer">
