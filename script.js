@@ -187,7 +187,7 @@ clearBtn.addEventListener('click', () => {
   cashInput.value = '';
   changeDue.textContent = '0';
   changeTotalElement.textContent = '0';
-  document.querySelectorAll('.denom-name, .denom-amount, .status').forEach(item => {
+  document.querySelectorAll('.denom-row, .status').forEach(item => {
     item.textContent = '';
   });
   changeTotalDiv.removeAttribute('style');
