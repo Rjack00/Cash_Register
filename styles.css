@@ -39,6 +39,7 @@ label {
     background-color: black;
     padding: 4% 3%;
     width: 200px;
+    border: solid 1px rgb(209, 207, 207);
 }
 
 .cash-transaction {
