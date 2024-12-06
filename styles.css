@@ -152,6 +152,10 @@ input::placeholder {
     border: solid 1px rgb(233, 217, 3);
 }
 
+.key:hover, .purchase-clear-btn:hover {
+    background-color: rgb(119, 119, 119);
+}
+
 .key:active, .purchase-clear-btn:active {
     background-color: white;
     color: black;

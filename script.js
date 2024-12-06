@@ -1,6 +1,6 @@
 import { getDomElements } from './elements.js';
 
-const { totalDue, cashInput, changeTotalElement, purchaseBtn, clearBtn, changeDueElement, cashInDrawer } = getDomElements();
+const { totalDue, cashInput, changeTotalElement, purchaseBtn, clearBtn, changeDueElement, cashInDrawer, key1, key2, key3, key4, key5, key6, key7, key8, key9, clearKey, key0, backspace } = getDomElements();
 
 const cashTransactionContainer = document.querySelector('.cash-transaction');
 const changeTotalDiv = document.getElementById('change-total-div');
@@ -164,6 +164,15 @@ const register = (totalDue, cashInput, cid) => {
 
 };
 
+function pressKey(key) {
+  const activeElement = document.activeElement;
+
+  if(activeElement.tagName === 'INPUT') {
+    activeElement.value += key;
+    activeElement.focus();
+  }
+};
+
 
 purchaseBtn.addEventListener('click', () => {
   Number(totalDue.value) > Number(cashInput.value)
@@ -194,3 +203,28 @@ clearBtn.addEventListener('click', () => {
   cashTransactionContainer.appendChild(changeTotalDiv);
 
 })
+
+key1.addEventListener('click', () => {
+  pressKey('1')});
+
+key2.addEventListener('click', pressKey('2'));
+
+key3.addEventListener('click', pressKey('3'));
+
+key4.addEventListener('click', pressKey('4'));
+
+key5.addEventListener('click', pressKey('5'));
+
+key6.addEventListener('click', pressKey('6'));
+
+key7.addEventListener('click', pressKey('7'));
+
+key8.addEventListener('click', pressKey('8'));
+
+key9.addEventListener('click', pressKey('9'));
+
+clearKey.addEventListener('click', null);
+
+key0.addEventListener('click', pressKey('0'));
+
+backspace.addEventListener('click', null);
