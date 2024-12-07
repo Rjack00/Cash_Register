@@ -164,13 +164,11 @@ const register = (totalDue, cashInput, cid) => {
 
 };
 
-function pressKey(key) {
+const pressKey = (key) => {
   const activeElement = document.activeElement;
-
-  if(activeElement.tagName === 'INPUT') {
+  activeElement.focus();
     activeElement.value += key;
-    activeElement.focus();
-  }
+    console.log('pressKey');
 };
 
 
@@ -202,29 +200,32 @@ clearBtn.addEventListener('click', () => {
   changeTotalDiv.removeAttribute('style');
   cashTransactionContainer.appendChild(changeTotalDiv);
 
-})
+});
 
-key1.addEventListener('click', () => {
-  pressKey('1')});
+document.addEventListener("DOMContentLoaded", () => {
+  const regex = /\d*\./;
+  let activeInput = null;
+  const inputs = document.querySelectorAll('.input-field');
 
-key2.addEventListener('click', pressKey('2'));
+  inputs.forEach(input => {
+    input.addEventListener('click', () => {
+      activeInput = input;
+    });
+  });
 
-key3.addEventListener('click', pressKey('3'));
-
-key4.addEventListener('click', pressKey('4'));
-
-key5.addEventListener('click', pressKey('5'));
-
-key6.addEventListener('click', pressKey('6'));
-
-key7.addEventListener('click', pressKey('7'));
-
-key8.addEventListener('click', pressKey('8'));
-
-key9.addEventListener('click', pressKey('9'));
-
-clearKey.addEventListener('click', null);
-
-key0.addEventListener('click', pressKey('0'));
-
-backspace.addEventListener('click', null);
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => {
+    key.addEventListener('click', () => {
+      if(activeInput) {
+        if(key.dataset.number === "." && activeInput.value.includes(".")) {
+          return;
+        }
+        if(key.dataset.number === "." && activeInput.value === "") {
+          return;
+        }
+        activeInput.value += key.dataset.number;
+        activeInput.focus();
+      }
+    });
+  });
+});

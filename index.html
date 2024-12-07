@@ -13,11 +13,11 @@
         <div class="cash-transaction">
             <div class="amount-due elem-background transaction-background">
                 <label for="cost-amount">Amount Due:</label>
-                <input type="number" id="cost-amount" placeholder="0">
+                <input type="text" id="cost-amount" class="input-field" placeholder="0">
             </div>
             <div class="cash elem-background transaction-background">
                 <label for="cash">Cash Received:</label>
-                <input type="number" id="cash" placeholder="0">
+                <input type="text" id="cash"  class="input-field" placeholder="0">
             </div>
             <div id='change-total-div' class="elem-background transaction-backgrounds">
                 <p>Total Change Due:</p>
@@ -31,17 +31,17 @@
             </div>
             <div class="btn-section">
                 <div id="keypad" class="buttons">
-                    <button class="key" id="key1">1</button>
-                    <button class="key" id="key2">2</button>
-                    <button class="key" id="key3">3</button>
-                    <button class="key" id="key4">4</button>
-                    <button class="key" id="key5">5</button>
-                    <button class="key" id="key6">6</button>
-                    <button class="key" id="key7">7</button>
-                    <button class="key" id="key8">8</button>
-                    <button class="key" id="key9">9</button>
-                    <button class="key" id="clear-key">C</button>
-                    <button class="key" id="key0">0</button>
+                    <button class="key" id="key1" data-number="1">1</button>
+                    <button class="key" id="key2" data-number="2">2</button>
+                    <button class="key" id="key3" data-number="3">3</button>
+                    <button class="key" id="key4" data-number="4">4</button>
+                    <button class="key" id="key5" data-number="5">5</button>
+                    <button class="key" id="key6" data-number="6">6</button>
+                    <button class="key" id="key7" data-number="7">7</button>
+                    <button class="key" id="key8" data-number="8">8</button>
+                    <button class="key" id="key9" data-number="9">9</button>
+                    <button class="key" id="decimal" data-number="."><b>.</b></button>
+                    <button class="key" id="key0" data-number="0">0</button>
                     <button class="key" id="backspace">←</button>
                 </div>
                 <div class="purchase-clear-section">

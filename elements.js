@@ -16,7 +16,7 @@ const getDomElements = () => {
         key7: document.getElementById('key7'),
         key8: document.getElementById('key8'),
         key9: document.getElementById('key9'),
-        clearKey: document.getElementById('clear-key'),
+        decimal: document.getElementById('decimal'),
         key0: document.getElementById('key0'),
         backspace: document.getElementById('backspace')
     };
