@@ -7,6 +7,7 @@ const changeTotalDiv = document.getElementById('change-total-div');
 
 let changeDue = [];
 
+
 let cid = [
   ['PENNY', 1.01],
   ['NICKEL', 2.05],
@@ -161,49 +162,31 @@ const register = (totalDue, cashInput, cid) => {
     <span class='denom-amount'>$${amount}</span>
     </div>`;
   });
-
-};
-
-const pressKey = (key) => {
-  const activeElement = document.activeElement;
-  activeElement.focus();
-    activeElement.value += key;
-    console.log('pressKey');
 };
 
 
-purchaseBtn.addEventListener('click', () => {
-  Number(totalDue.value) > Number(cashInput.value)
-    ? alert("Customer does not have enough money to purchase the item")
-    : register(Number(totalDue.value), Number(cashInput.value), cid);
-    updateUI(registerStatus);
-    changeDue = [];
+const inputField = document.querySelectorAll('input');
 
-  cashTransactionContainer.prepend(changeTotalDiv);
-  changeTotalDiv.style.backgroundColor = 'white';
-  changeTotalDiv.style.color = 'green';
-  changeTotalDiv.style.fontSize = '1.2em';
-  changeTotalDiv.style.fontWeight = 'bold';
-  changeTotalDiv.style.borderRadius = '20px';
-  changeTotalDiv.style.border = '4px solid black';
-  }
-);
+const regex = /^\d*(\.\d{0,2})?$/;
 
-clearBtn.addEventListener('click', () => {
-  totalDue.value = '';
-  cashInput.value = '';
-  changeDue.textContent = '0';
-  changeTotalElement.textContent = '0';
-  document.querySelectorAll('.denom-row, .status').forEach(item => {
-    item.textContent = '';
-  });
-  changeTotalDiv.removeAttribute('style');
-  cashTransactionContainer.appendChild(changeTotalDiv);
+inputField.forEach(field => {
+  field.addEventListener('keydown', (event) => {
+    const key = event.key;
+    const currentValue = event.target.value;
 
+    const editNavKeys = ["Backspace", "ArrowLeft", "ArrowRight", "Delete", "Tab"].includes(key);
+
+    if(editNavKeys) return;
+
+    if(!regex.test(currentValue + key)) {
+      event.preventDefault();
+    } else if (key === '.' && currentValue.includes('.')) {
+      event.preventDefault();
+    }
+  })
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const regex = /\d*\./;
   let activeInput = null;
   const inputs = document.querySelectorAll('.input-field');
 
@@ -217,15 +200,45 @@ document.addEventListener("DOMContentLoaded", () => {
   keys.forEach(key => {
     key.addEventListener('click', () => {
       if(activeInput) {
-        if(key.dataset.number === "." && activeInput.value.includes(".")) {
-          return;
-        }
-        if(key.dataset.number === "." && activeInput.value === "") {
-          return;
-        }
+        if(key.dataset.number === "." && activeInput.value.includes(".")) return;
+        if(!regex.test(activeInput.value + key.dataset.number)) return;
+    
         activeInput.value += key.dataset.number;
         activeInput.focus();
       }
     });
   });
+});
+
+
+purchaseBtn.addEventListener('click', () => {
+  if(Number(totalDue.value) > Number(cashInput.value)){
+    return alert("Customer does not have enough money to purchase the item");
+  } else {
+    register(Number(totalDue.value), Number(cashInput.value), cid);
+    updateUI(registerStatus);
+    changeDue = [];
+
+    cashTransactionContainer.prepend(changeTotalDiv);
+    changeTotalDiv.style.backgroundColor = 'white';
+    changeTotalDiv.style.color = 'green';
+    changeTotalDiv.style.fontSize = '1.2em';
+    changeTotalDiv.style.fontWeight = 'bold';
+    changeTotalDiv.style.borderRadius = '20px';
+    changeTotalDiv.style.border = '4px solid black';
+  }
+}
+);
+
+clearBtn.addEventListener('click', () => {
+  totalDue.value = '';
+  cashInput.value = '';
+  changeDueElement.textContent = 'Change Due:';
+  changeTotalElement.textContent = '0';
+  document.querySelectorAll('.denom-row, .status').forEach(item => {
+    item.textContent = '';
+  });
+  changeTotalDiv.removeAttribute('style');
+  cashTransactionContainer.appendChild(changeTotalDiv);
+
 });
