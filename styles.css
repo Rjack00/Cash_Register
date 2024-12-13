@@ -58,8 +58,8 @@ input {
     border: none;
     text-align: center;
     color: white;
-    margin-left: 11px;
 }
+
 .currency-input {
     position: absolute;
     pointer-events: none;
@@ -67,6 +67,10 @@ input {
 
 input::placeholder {
     color: white !important;
+}
+
+#change-total {
+    margin-top: 2px;
 }
 
 .cashier-section {
