@@ -238,6 +238,7 @@ purchaseBtn.addEventListener('click', () => {
     changeTotalDiv.style.fontWeight = 'bold';
     changeTotalDiv.style.borderRadius = '20px';
     changeTotalDiv.style.border = '4px solid black';
+    changeDueElement.textContent = 'Change Due:';
   }
 }
 );
@@ -245,7 +246,6 @@ purchaseBtn.addEventListener('click', () => {
 clearBtn.addEventListener('click', () => {
   totalDue.value = '';
   cashInput.value = '';
-  changeDueElement.textContent = 'Change Due:';
   changeTotalElement.textContent = '0';
   document.querySelectorAll('.denom-row, .status').forEach(item => {
     item.textContent = '';
