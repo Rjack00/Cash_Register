@@ -65,7 +65,7 @@ const updateUI = (registerStatus) => {
 let registerStatus = '';
 let exactChangeNotAvailable = false;
 
-// REGISTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+// REGISTER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const register = (totalDue, cashInput, cid) => {
   
   exactChangeNotAvailable = false;
@@ -164,7 +164,7 @@ const register = (totalDue, cashInput, cid) => {
   });
 };
 
-
+// Rules for input field input
 const inputField = document.querySelectorAll('input');
 
 const regex = /^\d*(\.\d{0,2})?$/;
@@ -186,6 +186,7 @@ inputField.forEach(field => {
   })
 });
 
+//Rules and functionality for onscreen keypad
 document.addEventListener("DOMContentLoaded", () => {
   let activeInput = null;
   const inputs = document.querySelectorAll('.input-field');
@@ -197,13 +198,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const keys = document.querySelectorAll('.key');
+  
   keys.forEach(key => {
-    key.addEventListener('click', () => {
+    key.addEventListener('click', () => {      
       if(activeInput) {
-        if(key.dataset.number === "." && activeInput.value.includes(".")) return;
-        if(!regex.test(activeInput.value + key.dataset.number)) return;
-    
-        activeInput.value += key.dataset.number;
+        const cursorPos = activeInput.selectionStart;
+
+        if(key.dataset.number === "back" && cursorPos > 0) {
+          console.log('cursorPos: ', cursorPos);
+          let inputValue = activeInput.value;
+          inputValue = inputValue.slice(0, cursorPos -1) + inputValue.slice(cursorPos);
+          activeInput.value = inputValue;
+          activeInput.setSelectionRange(cursorPos -1, cursorPos -1);
+        } else {
+          if(key.dataset.number === "." && activeInput.value.includes(".")) return;
+          
+          if(!regex.test(activeInput.value + key.dataset.number)) return;
+          
+          activeInput.value += key.dataset.number;
+        }
         activeInput.focus();
       }
     });
