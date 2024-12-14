@@ -223,7 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 purchaseBtn.addEventListener('click', () => {
   if(Number(totalDue.value) > Number(cashInput.value)){
     return alert("Customer does not have enough money to purchase the item");
