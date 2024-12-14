@@ -238,7 +238,6 @@ purchaseBtn.addEventListener('click', () => {
     changeTotalDiv.style.fontWeight = 'bold';
     changeTotalDiv.style.borderRadius = '20px';
     changeTotalDiv.style.border = '4px solid black';
-    changeDueElement.textContent = 'Change Due:';
   }
 }
 );
@@ -252,5 +251,4 @@ clearBtn.addEventListener('click', () => {
   });
   changeTotalDiv.removeAttribute('style');
   cashTransactionContainer.appendChild(changeTotalDiv);
-
 });
