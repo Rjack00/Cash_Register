@@ -58,7 +58,7 @@ const updateUI = (registerStatus) => {
       });
     }
   } else {
-    changeDueElement.textContent = `${registerMessage}`;
+    changeDueElement.innerHTML += `<p class="status">${registerMessage}</p>`;
   }
 }
 
@@ -84,16 +84,7 @@ const register = (totalDue, cashInput, cid) => {
     element[1] = Math.round(element[1] *100);
   }
 
-  if(!totalDue) {
-    alert("Enter amount due");
-    return;
-  }
-
-  if(!cashInput) {
-    alert("Enter cash from customer");
-    return;
-  }
-
+  // using variable to make change into cents for making change
   let change = Math.round((cashInput * 100) - (totalDue * 100));
 
   let totalChange = change / 100;
@@ -224,6 +215,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 purchaseBtn.addEventListener('click', () => {
+  if(!totalDue.value) {
+    alert("Enter amount due");
+    return;
+  }
+  if(!cashInput.value) {
+    alert("Enter cash from customer");
+    return;
+  }
   if(Number(totalDue.value) > Number(cashInput.value)){
     return alert("Customer does not have enough money to purchase the item");
   } else {
@@ -247,7 +246,7 @@ clearBtn.addEventListener('click', () => {
   cashInput.value = '';
   changeTotalElement.textContent = '0';
   document.querySelectorAll('.denom-row, .status').forEach(item => {
-    item.textContent = '';
+    item.remove();
   });
   changeTotalDiv.removeAttribute('style');
   cashTransactionContainer.appendChild(changeTotalDiv);
