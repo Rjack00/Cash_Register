@@ -24,11 +24,13 @@ body {
     align-items: center;
     background-color: rgb(51, 51, 51);
     margin-top: 2%;
-    margin-bottom: 2%;
+    margin-bottom: 20px;
     border-radius: 30px;
     text-align: center;
     padding: 1% 2%;
     gap: 20px 20px;
+    overflow-y: auto;
+    min-height: 95vh;
 }
 
 label {
@@ -93,6 +95,10 @@ input::placeholder {
     height: 250px;
 }
 
+.change-due {
+    order: 1;
+}
+
 .cid-header{
     margin-bottom: 10px;
 }
@@ -117,6 +123,7 @@ input::placeholder {
 }
 
 .btn-section {
+    order: 2;
     display: flex;
     flex-direction: column;
     row-gap: 20px;
@@ -163,4 +170,40 @@ input::placeholder {
 .key:active, .purchase-clear-btn:active {
     background-color: white;
     color: black;
+}
+
+.cid-element {
+    order: 3;
+}
+
+@media (max-width: 644px) {
+    .main-container {
+        transform: scale(.8);
+        margin-top: -50px;
+        margin-bottom: auto;
+        padding: 15px;
+    } 
+}
+
+@media (max-width: 540px) {
+    .main-container {
+        transform: scale(1.1);
+        margin-top: 80px;
+        margin-bottom: auto;
+        padding: 15px;
+    }
+    .cashier-section {
+        flex-direction: column;
+        row-gap: 15px;
+        align-items: center;
+    }
+    .btn-section {
+        order: 1;
+    }
+    .change-due {
+        order: 2;
+    }
+    .cid-element {
+        order: 3;
+    }
 }
